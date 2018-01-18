@@ -1,0 +1,63 @@
+
+
+start locator --name=locator1 --port=10334 --initial-heap=256m --max-heap=256m --log-level=DEBUG
+
+
+start locator --name=locator1 --port=41111 --initial-heap=256m --max-heap=256m --log-level=DEBUG
+
+start server --name=server1 --cache-xml-file=server1\server-cache.xml --log-level=DEBUG
+
+stop server --name=server1
+stop locator --name=locator1
+
+
+start server --name=server4 --server-port=0 --initial-heap=50m --max-heap=50m --classpath=C:\vaquarkhan\gemfire\GemFire-Developer-9.0.2a.RELEASE\GemFire-Developer-9.0.2a.RELEASE\server-regions\target\classes
+
+start server --name=server3 --server-port=0 --initial-heap=50m --max-heap=50m --classpath=C:\vaquarkhan\gemfire\GemFire-Developer-9.0.2a.RELEASE\GemFire-Developer-9.0.2a.RELEASE\custom-partitioning-solution\target\classes
+
+
+
+undeploy --jar=ABC-0.0.1-SNAPSHOT.jar
+
+deploy --jar=C:\temp\ABC-0.0.1-SNAPSHOT.jar
+
+describe region  --name=ABCAccount
+
+create region --name=ABCAccount --type=PARTITION --redundant-copies=1  --total-num-buckets=1
+
+
+create region --name=BookMaster --type=REPLICATE --redundant-copies=1  --total-num-buckets=1
+create region --name=Customer --type=REPLICATE --redundant-copies=1  --total-num-buckets=1
+describe region  --name=Customer
+query --query='select * from /Customer'
+                              
+
+
+create region --name=ABCAccount --type=REPLICATE_PERSISTENT
+create region --name=customer --type=REPLICATE_PERSISTENT
+create region --name=account --type=REPLICATE_PERSISTENT
+
+
+destroy region --name=ABCAccount
+
+
+query --query='select * from /ABCAccount' 
+
+
+query --query='select * from /account' 
+
+
+XWZHVyKoRGog7pbU
+
+undeploy --jar=/data/APIJARS/POS/domain/ABC-0.0.1-SNAPSHOT.jar
+
+deploy --jar=/data/APIJARS/POS/domain/ABC-0.0.1-SNAPSHOT.jar
+
+query --query='select * from /customer'
+
+query --query='SELECT pos.accountNumber,pos.referenceId,pos.keySwipeValue,pos.posValue,pos.wccValue,pos.cardType,pos.isEcom,pos.tran_date FROM /ABCAccount pos WHERE (pos.referenceId ='P9358007F00XTRXAV'and  accountNumber='7602035856947650' and pos.transaction_amt='10.0' and pos.tran_date='25-AUG-17')'
+
+
+describe region --name=regionA
+
+remove --region=exampleRegion --all
